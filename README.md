@@ -1,63 +1,54 @@
 # ❤️ Heart Disease Prediction using Machine Learning
 
-![Project Banner](images/heart_banner.jpg)
-
 ## 📊 Project Overview
 
-This project predicts the likelihood of heart disease in patients using various clinical features such as age, cholesterol, chest pain type, and resting blood pressure.
-It employs a **Random Forest Classifier** integrated into a **Pipeline** with preprocessing via `StandardScaler()` and parameter optimization using `RandomizedSearchCV`.
+This project predicts the likelihood of heart disease in patients based on various medical attributes such as age, cholesterol levels, chest pain type, and resting blood pressure. It uses a **Random Forest Classifier** integrated into a **machine learning pipeline** with preprocessing steps for scaling and parameter tuning.
 
-> 🎯 **Goal:** Build an accurate and interpretable model for early heart disease risk detection.
+The goal is to build an accurate, interpretable, and efficient model to assist in early identification of heart disease risk.
 
 ---
 
-## 📁 Dataset Description
+## 📁 Dataset
 
-| Attribute | Description                                                       |
-| --------- | ----------------------------------------------------------------- |
-| age       | Age of the patient                                                |
-| sex       | Gender (1 = Male, 0 = Female)                                     |
-| cp        | Chest pain type                                                   |
-| trestbps  | Resting blood pressure (mm Hg)                                    |
-| chol      | Serum cholesterol (mg/dl)                                         |
-| fbs       | Fasting blood sugar > 120 mg/dl                                   |
-| restecg   | Resting electrocardiographic results                              |
-| thalach   | Maximum heart rate achieved                                       |
-| exang     | Exercise-induced angina                                           |
-| oldpeak   | ST depression induced by exercise                                 |
-| slope     | Slope of the peak exercise ST segment                             |
-| ca        | Number of major vessels colored by fluoroscopy                    |
-| thal      | Thalassemia (3 = normal; 6 = fixed defect; 7 = reversible defect) |
-| target    | Heart disease (1 = yes, 0 = no)                                   |
+The dataset used in this project contains **303 patient records** with **14 attributes**, including:
 
-**Rows:** 303
-**Columns:** 14
-**Missing Values:** None
+* `age` – Age of the patient
+* `sex` – Gender (1 = male, 0 = female)
+* `cp` – Chest pain type
+* `trestbps` – Resting blood pressure
+* `chol` – Serum cholesterol (mg/dl)
+* `fbs` – Fasting blood sugar > 120 mg/dl
+* `restecg` – Resting electrocardiographic results
+* `thalach` – Maximum heart rate achieved
+* `exang` – Exercise-induced angina
+* `oldpeak` – ST depression induced by exercise
+* `slope` – Slope of the peak exercise ST segment
+* `ca` – Number of major vessels colored by fluoroscopy
+* `thal` – Thalassemia (defect type)
+* `target` – Diagnosis of heart disease (1 = disease, 0 = no disease)
+
+There are **no missing values** in the dataset.
 
 ---
 
 ## ⚙️ Model Workflow
 
-### 1️⃣ Data Preprocessing
+### 1. **Data Preprocessing**
 
-* Standardized features using **StandardScaler**
-* Split into 70% training and 30% testing sets
-* Verified class balance
+* Scaled numerical features using `StandardScaler`
+* Split dataset into training and testing sets (70:30 ratio)
+* Ensured balanced class distribution
 
-### 2️⃣ Model Building
+### 2. **Model Building**
 
-Pipeline structure:
+Used a **Pipeline** combining:
 
-```python
-Pipeline([
-    ('scaler', StandardScaler()),
-    ('model', RandomForestClassifier())
-])
-```
+* `StandardScaler()` – for feature normalization
+* `RandomForestClassifier()` – for classification
 
-### 3️⃣ Hyperparameter Tuning
+### 3. **Hyperparameter Tuning**
 
-RandomizedSearchCV parameters:
+Optimized using **RandomizedSearchCV** with parameters:
 
 ```python
 {
@@ -70,7 +61,7 @@ RandomizedSearchCV parameters:
 }
 ```
 
-**Best Parameters:**
+Best parameters obtained:
 
 ```python
 {'n_estimators': 200,
@@ -83,51 +74,34 @@ RandomizedSearchCV parameters:
 
 ---
 
-## 📈 Model Evaluation
+## 📈 Model Performance
 
-| Metric    | Score    |
-| --------- | -------- |
-| Accuracy  | **0.82** |
-| Precision | **0.83** |
-| Recall    | **0.86** |
-| F1 Score  | **0.84** |
+| Metric        | Score |
+| ------------- | ----- |
+| **Accuracy**  | 0.82  |
+| **Precision** | 0.83  |
+| **Recall**    | 0.86  |
+| **F1-Score**  | 0.84  |
 
-**Confusion Matrix:**
+Confusion Matrix:
 
 ```
 [[32,  9],
  [ 7, 43]]
 ```
 
-![Confusion Matrix](images/confusion_matrix.png)
-
 ---
 
-## 🔍 Data Insights
+## 🔍 Key Insights
 
-* **Male Patients:** 68.32%
-* **Female Patients:** 31.68%
-* **Heart Disease Cases:** 54.46%
-* **No Heart Disease:** 45.54%
+* **54.46%** of patients had heart disease.
+* Higher correlation observed between target and:
 
-![Gender Distribution](images/gender_distribution.png)
-![Target Distribution](images/target_distribution.png)
-
-### 🔗 Feature Correlation with Target
-
-| Feature | Correlation |
-| ------- | ----------- |
-| exang   | 0.44        |
-| cp      | 0.43        |
-| oldpeak | 0.43        |
-| thalach | 0.42        |
-| ca      | 0.39        |
-
-![Correlation Heatmap](images/correlation_heatmap.png)
-
-### 🧩 Feature Importance (Top 5)
-
-![Feature Importance](images/feature_importance.png)
+  * Exercise-induced angina (`exang`)
+  * Chest pain type (`cp`)
+  * Oldpeak
+  * Maximum heart rate (`thalach`)
+* Male patients accounted for **68.32%** of the dataset.
 
 ---
 
@@ -137,45 +111,25 @@ RandomizedSearchCV parameters:
 * pandas
 * numpy
 * scikit-learn (v1.4.1.post1)
-* matplotlib / seaborn
+* matplotlib / seaborn (for visualization)
 
 ---
 
-## 💡 Key Learnings
+## 📬 Results Summary
 
-* Using `Pipeline` helps streamline scaling and training.
-* Random Forest achieved consistent performance with minimal overfitting.
-* The dataset showed a slightly higher occurrence of heart disease among males.
+The model achieved an **82% accuracy** in predicting heart disease and shows strong potential as a diagnostic support tool. Further improvement can be achieved by:
 
----
-
-## 🚀 Future Improvements
-
-* Integrate the model into a **Flask web app** for real-time predictions.
-* Add **SHAP or LIME** for model interpretability.
-* Create a **dashboard in Power BI or Streamlit** for interactive visualization.
+* Using ensemble techniques (XGBoost, Gradient Boosting)
+* Performing feature engineering and correlation-based feature selection
+* Expanding dataset size for better generalization
 
 ---
 
-## 🖼️ Suggested Folder Structure
+## 💡 Future Work
 
-```
-heart-disease-prediction/
-│
-├── data/
-│   └── heart.csv
-│
-├── images/
-│   ├── correlation_heatmap.png
-│   ├── confusion_matrix.png
-│   ├── gender_distribution.png
-│   ├── target_distribution.png
-│   ├── feature_importance.png
-│   └── heart_banner.jpg
-│
-├── notebook/
-│   └── heart_disease_model.ipynb
-│
-├── README.md
-└── requirements.txt
-```
+* Integrate the model into a **Flask web app** for real-time prediction.
+* Add **SHAP or LIME** explanations for model interpretability.
+* Build an interactive dashboard for visualization.
+
+---
+
